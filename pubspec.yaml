@@ -1,0 +1,36 @@
+name: boma
+description: >-
+  Boma: Pastoralist Language Strategy — a collaborative, crowdsourced language
+  learning game where validated vocabulary hatches into livestock inside your
+  homestead. Maintain the herd with SM-2 Grazing Runs; raid rivals through
+  timed linguistic decryption.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # State management (see lib/domain/*_controller.dart providers)
+  flutter_riverpod: ^2.5.1
+  # Backend: Postgres w/ RLS, Auth, Storage, Edge Functions, Realtime
+  supabase_flutter: ^2.5.6
+  # Native pronunciation clips (.m4a/.ogg) playback
+  audioplayers: ^6.0.0
+  # Mic recording for contributor submissions
+  record: ^5.1.2
+  # Isometric kraal upgrades once sprite atlases land (MVP uses CustomPaint)
+  flame: ^1.17.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/sprites/

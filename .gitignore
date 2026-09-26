@@ -1,5 +1,5 @@
-node_modules/
-.next/
-dist/
+.dart_tool/
 build/
-*.log
+pubspec.lock
+node_modules/
+*.env

@@ -1,0 +1,11 @@
+# Supabase local dev project configuration (Boma MVP).
+project_id = "boma-mvp"
+
+[functions.review_submission]
+verify_jwt = true
+
+[functions.raid_manager]
+verify_jwt = true
+
+[auth]
+enable_signup = true
