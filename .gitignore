@@ -3,3 +3,6 @@ build/
 pubspec.lock
 node_modules/
 *.env
+.next/
+dist/
+*.log
