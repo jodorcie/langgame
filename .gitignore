@@ -1,8 +1,17 @@
-.dart_tool/
-build/
-pubspec.lock
-node_modules/
-*.env
+# Flutter/Dart specific
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# IDE files
+.idea/
+*.iml
+
+# Android build artifacts
+android/.gradle/
+android/build/
+android/app/build/node_modules/
 .next/
 dist/
+build/
 *.log

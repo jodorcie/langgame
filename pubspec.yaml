@@ -34,3 +34,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/sprites/
+
+dependency_overrides:
+  # app_links (transitive via supabase_flutter, used only for OAuth deep links):
+  # 6.4.1's Android build.gradle reads `flutter.compileSdkVersion`, which
+  # resolves to null under AGP 8.6 in this setup. Pin the previous line.
+  app_links: 6.3.3
