@@ -1,17 +1,22 @@
-# Flutter/Dart specific
+# Flutter/Dart build artifacts
+.dart_tool/
+
+# Dependencies
+.packages
 .flutter-plugins
 .flutter-plugins-dependencies
-.metadata
 
-# IDE files
+# IDE and Editor files
 .idea/
+.vscode/
 *.iml
+*.swp
+*.swo
 
-# Android build artifacts
-android/.gradle/
-android/build/
-android/app/build/node_modules/
-.next/
-dist/
-build/
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
 *.log
+*.tmp

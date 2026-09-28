@@ -72,7 +72,7 @@ class VocabularyRepository {
     required bool isAccurate,
     String? notes,
   }) async {
-    final res = await _db.functions.post(
+    final res = await _db.functions.invoke(
       'review_submission',
       body: {
         'phrase_id': phraseId,

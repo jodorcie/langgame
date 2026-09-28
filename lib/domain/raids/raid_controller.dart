@@ -112,7 +112,7 @@ class RaidController extends Notifier<RaidState> {
   Future<void> beginRaid(String targetBomaId) async {
     state = state.copyWith(phase: RaidPhase.scouting);
     try {
-      final res = await ref.read(supabaseProvider).functions.post(
+      final res = await ref.read(supabaseProvider).functions.invoke(
             'raid_manager',
             body: {'action': 'begin', 'target_boma_id': targetBomaId},
           );
@@ -203,7 +203,7 @@ class RaidController extends Notifier<RaidState> {
         ? state.timeLimitSecs
         : DateTime.now().difference(_engagedAt).inSeconds;
 
-    final res = await ref.read(supabaseProvider).functions.post(
+    final res = await ref.read(supabaseProvider).functions.invoke(
           'raid_manager',
           body: {
             'action': 'resolve',
