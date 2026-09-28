@@ -10,7 +10,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/models/herd_animal.dart';
 import '../../domain/srs/herd_controller.dart';
 import 'grazing_drill_sheet.dart';
 
@@ -35,7 +34,7 @@ class BomaScreen extends ConsumerWidget {
                   final due = herd.where((a) => a.showsAlert).length;
                   return GestureDetector(
                     onTapDown: (pos) => _maybeTapAnimal(
-                        context, ref, herd, pos, due),
+                        context, ref, herd, pos.globalPosition, due),
                     child: CustomPaint(
                       size: Size.infinite,
                       painter: BomaPainter(herd: herd),
@@ -51,7 +50,12 @@ class BomaScreen extends ConsumerWidget {
         onPressed: () async {
           await ref.read(grazingControllerProvider.notifier).startSession();
           if (dueCount(ref) > 0 && context.mounted) {
-            Navigator.of(context).pushNamed('/grazing'); // GrazingDrillSheet
+            showModalBottomSheet<void>(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (_) => const GrazingDrillSheet(),
+            );
           }
         },
         icon: const Icon(Icons.grass),
@@ -71,7 +75,12 @@ class BomaScreen extends ConsumerWidget {
     // .animalCenter). MVP: any tap while animals are due starts the drill.
     if (due == 0) return;
     ref.read(grazingControllerProvider.notifier).startSession();
-    Navigator.of(context).pushNamed('/grazing');
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const GrazingDrillSheet(),
+    );
   }
 }
 

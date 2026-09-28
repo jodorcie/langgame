@@ -381,9 +381,9 @@
     },
     {
       "name": "record",
-      "rootUri": "file:///root/.pub-cache/hosted/pub.dev/record-5.2.1",
+      "rootUri": "file:///root/.pub-cache/hosted/pub.dev/record-5.1.2",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.3"
     },
     {
       "name": "record_android",
@@ -662,7 +662,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2026-09-27T09:59:31.310400Z",
+  "generated": "2026-09-27T19:10:44.978062Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///opt/flutter",

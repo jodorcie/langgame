@@ -20,7 +20,7 @@ dependencies:
   # Native pronunciation clips (.m4a/.ogg) playback
   audioplayers: ^6.0.0
   # Mic recording for contributor submissions
-  record: ^5.1.2
+  record: 5.1.2
   # Isometric kraal upgrades once sprite atlases land (MVP uses CustomPaint)
   flame: ^1.17.0
   intl: ^0.19.0

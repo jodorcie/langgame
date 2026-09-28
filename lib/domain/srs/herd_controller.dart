@@ -12,6 +12,8 @@
 ///     by consensus or stolen in raids while you're away.
 /// ============================================================================
 
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,24 +40,37 @@ final herdStreamProvider =
   if (bomaId == null) return;
 
   // Initial snapshot…
-  emit(await fetchHerd(db, bomaId));
+  yield await fetchHerd(db, bomaId);
 
   // …then delta updates whenever any animal is fed, sickens, or is rustled.
-  yield* db
-      .channel('herd:$bomaId')
-      .onPostgresChanges(
-        event: PostgresChangeEvent.all,
-        schema: 'public',
-        table: 'herd_animals',
-        filter: PostgresChangeFilter(
-          type: PostgresChangeFilterType.eq,
-          column: 'boma_id',
-          value: bomaId,
-        ),
-        callback: (_) async {},
-      )
-      .subscribe()
-      .map((_) => fetchHerd(db, bomaId));
+  // (RealtimeChannel is not a Dart Stream; bridge DB-change events through a
+  // broadcast controller that re-pulls the authoritative herd on each event.)
+  final changes = StreamController<List<HerdAnimal>>();
+  late final channelRef = db.channel('herd:$bomaId');
+  channelRef.onPostgresChanges(
+    event: PostgresChangeEvent.all,
+    schema: 'public',
+    table: 'herd_animals',
+    filter: PostgresChangeFilter(
+      type: PostgresChangeFilterType.eq,
+      column: 'boma_id',
+      value: bomaId,
+    ),
+    callback: (_) async {
+      try {
+        changes.add(await fetchHerd(db, bomaId));
+      } catch (e) {
+        changes.addError(e);
+      }
+    },
+  ).subscribe();
+
+  ref.onDispose(() {
+    changes.close();
+    db.removeChannel(channelRef);
+  });
+
+  yield* changes.stream;
 });
 
 Future<List<HerdAnimal>> fetchHerd(SupabaseClient db, String bomaId) async {
@@ -134,7 +149,7 @@ class GrazingController extends Notifier<GrazingSession?> {
     }
 
     // 1. Local optimistic scheduling for instant sprite feedback.
-    final predicted = _engine.schedule(state: animal.srsState, q: q);
+    final predicted = _engine.schedule(state: animal.srs, q: q);
 
     // 2. Authoritative write-back (server recomputes identical math).
     final rows = await _db.rpc<List<dynamic>>(
